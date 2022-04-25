@@ -114,7 +114,8 @@ class Game:
 
     def play_game(self):
         print("The game has begun!")
-        for round in range(3):
+        self.rounds = 3
+        for round in range(self.rounds):
             print(f"Round {round}:")
             self.play_round()
         print(f"Player 1's final score is {self.p1_score}!")
