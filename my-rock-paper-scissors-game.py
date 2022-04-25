@@ -76,3 +76,52 @@ class CyclePlayer(Player):
 class AllRockPlayer(Player):
     def move(self):
         pass
+
+
+class Game:
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        self.p1_score = 0
+        self.p2_score = 0
+
+    def beats(one, two):
+        return ((one == 'rock' and two == 'scissors') or
+                (one == 'scissors' and two == 'paper') or
+                (one == 'paper' and two == 'rock'))
+
+    def play_round(self):
+        move1 = self.p1.move()
+        move2 = self.p2.move()
+        print(f"Player 1 played {move1}")
+        print(f"Player 2 played {move2}")
+        self.p1.learn(move1, move2)
+        self.p2.learn(move2, move1)
+        if move1 == move2:
+            print("You have tied this round:")
+            print(f"Player 1's score is {self.p1_score}")
+            print(f"Player 2's score is {self.p2_score}")
+        elif Game.beats(move1, move2):
+            self.p1_score += 1
+            print("Player 1 has won this round:")
+            print(f"Player 1's score is {self.p1_score}")
+            print(f"Player 2's score is {self.p2_score}")
+        else:
+            self.p2_score += 1
+            print("Player 2 has won this round:")
+            print(f"Player 1's score is {self.p1_score}")
+            print(f"Player 2's score is {self.p2_score}")
+
+    def play_game(self):
+        print("The game has begun!")
+        for round in range(3):
+            print(f"Round {round}:")
+            self.play_round()
+        print(f"Player 1's final score is {self.p1_score}!")
+        print(f"Player 2's final score is {self.p2_score}!")
+        print("Well done everyone, the game has ended!")
+
+
+if __name__ == '__main__':
+    game = Game(ReflectPlayer(), HumanPlayer())
+    game.play_game()
